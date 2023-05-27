@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% extends "publicaciones/base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="content-section">
+  <!-- Sign up form -->
+  <form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Log in</legend>
+      {{ form|crispy }}
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-outline-info" type="submit">Login</button>
+      <small class="text-muted ml-2">
+        <a href="{% url 'password_reset' %}">Forgot Password?</a>
+      </small>
+    </div>
+  </form>
+  <!-- Sign in form -->
+  <div class="border-top pt-3">
+    <small class="text-muted">
+      Do you need an account?
+      <a class="ml-2" href="{% url 'register' %}">Sign up now</a>
+    </small>
+  </div>
+</div>
+{% endblock content %}
+
+</body>
+</html>

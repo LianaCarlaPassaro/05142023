@@ -1,0 +1,120 @@
+{% extends "publicaciones/base.html" %}
+        {% block title %}ContàConmigo{% endblock %}
+
+{% block content %}
+        <p class = "texto">Este sitio fue creado con motivo de presentarlo como proyecto final de la carrera Ing. de Sistemas de Información, Facultad U.T.N Regional Rosario.</p>
+        <p class = "texto">El objetivo de este sitio es el de conectar a pacientes de instituciones de salud que requieren donantes de sangre con aquellas personas que
+        realizan esta acción desinteresada.</p>
+        <p class = "texto">En este sitio encontrarás un listado con todos aquellos pacientes que solicitan de la colaboración de donantes, junto a la información de la institución a la que deben dirigirse
+                para realizar la extracción.</p>
+        <p class = "texto">Cualquier posible donante puede aplicar a algún paciente específico ya sea por afinidad, o por ubicación geográfica. La información de la Institución será brindada para cada pedido.</p>
+
+        <br/>
+        <h3>Ley de Sangre</h3>
+        <a href="http://servicios.infoleg.gob.ar/infolegInternet/anexos/45000-49999/49103/norma.htm" target="_blank" rel="nofollow" title="Ley de sangre"><b>ARTICULO 43:</b></a>
+        <p class = "texto">La donación de sangre o sus componentes es un acto de disposición voluntaria, solidaria o altruista, mediante el cual una persona acepta su extracción para fines exclusivamente médicos no estando sujeta a remuneración o comercialización posterior, ni cobro alguno.</p>
+
+        <div align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/B8e_Qyk6cd0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <h3>Requisitos básicos para la donación</h3>
+        <div class="caja">
+                <p class = "texto">
+                <li>Si tuviste COVID, deben haber pasado 10 días desde el alta médica</li>
+                <li>Haber pasado 72 hs. desde la aplicación de la vacuna contra el COVID-19</li>
+                <li>Tener entre 18 y 65 años de edad.</li>
+                <li>Pesar más de 50 kilos.</li>
+                <li>Tener buen estado de salud.</li>
+                <li>No tener fiebre ni haber padecido alguna enfermedad en los últimos 7 días.</li>
+                <li>Haber descansado por lo menos 6 horas la noche anterior a la donación.</li>
+                <li>Es conveniente desayunar antes de donar.</li>
+                <li>Concurrir con DNI</li>
+                </p>
+        </div>
+        <br/>
+        <h3>Impedimientos para la donación</h3>
+        <div class="objective">
+                <p class = "objective">
+                <li>Temporarios: Embarazo, parto, operación reciente, haber tenido síntomas de COVID en los últimos 10 días.</li>
+                <li>Tatuajes y perforaciones realizados en el último año.</li>
+                <li>Relaciones sexuales ocasionales o de riesgo en el último año.</li>
+                <li>Definitivos: Tener enfermedades cardíacas, pulmonares, renales, tuberculosis, anemia, hemofilia, úlcera activa, cáncer, trastornos de la coagulación, etc.</li>
+                <li>Haber tenido antecedentes de hepatitis C o B, chagas, accidente cerebrovascular, etc.</li>
+                <li>Ser usuario de drogas.</li>
+                <li>Ser portador del virus VIH.</li>
+                </p>
+        </div>
+        <br/>
+        <h3>Período ventana</h3>
+        <div class="caja">
+                <p class = "texto">
+                Toda la sangre recibida en Hemoterapia es analizada para detectar enfermedades transmisibles. Sin embargo, existe un período llamado “ventana serológica”, que es el tiempo que pasa desde que una persona se infecta hasta que la infección puede ser detectada en el laboratorio.
+                Si una persona dona sangre estando en el período de ventana, la enfermedad no puede detectarse en el laboratorio.
+                </p>
+
+        </div>
+        <br/>
+        <div class="media">
+                <p>
+                     <strong>
+                        Es indispensable que el donante sea sincero al completar el cuestionario
+                        de requisitos que hay que leer antes de donar, para poder autoexcluirse si está en un posible período de ventana.
+                     </strong>
+                </p>
+        </div>
+        <br/>
+        <h3>Recomendaciones</h3>
+                <div class="caja">
+                        <p class = "texto">
+                                Se puede desayunar antes de donar. El plazo mínimo conveniente entre dos donaciones de sangre es de 2 meses.
+                        </p>
+                </div>
+        <br/>
+        <h3>¿A quién puedes donar?</h3>
+        <table class = "caja">
+                <tr>
+                        <th>TIPO DE SANGRE</th>
+                        <th>PUEDE DONAR A:</th>
+                        <th>PUEDE RECIBIR DE:</th>
+                </tr>
+                <tr>
+                        <th>A+</th>
+                        <td>A+  AB+</td>
+                        <td>O+  O-  A+  A-</td>
+                </tr>
+                <tr>
+                        <th>A-</th>
+                        <td>A+  A-  AB+  AB-</td>
+                        <td>O-  A-</td>
+                </tr>
+                <tr>
+                        <th>B+</th>
+                        <td>B+  AB+</td>
+                        <td>O+  O-  B+  B-</td>
+                </tr>
+                <tr>
+                        <th>B-</th>
+                        <td>B+  B-  AB+  AB-</td>
+                        <td>O-  B-</td>
+                </tr>
+                <tr>
+                        <th>AB+</th>
+                        <td>AB+</td>
+                        <td>TODOS</td>
+                </tr>
+                <tr>
+                        <th>AB-</th>
+                        <td>AB+  AB-</td>
+                        <td>AB-  O-  A-  B-</td>
+                </tr>
+                <tr>
+                        <th>O+</th>
+                        <td>A+  B+  AB+  O+</td>
+                        <td>O+  O-</td>
+                </tr>
+                <tr>
+                        <th>O-</th>
+                        <td>TODOS</td>
+                        <td>O-</td>
+                </tr>
+        </table>
+
+{% endblock content %}
