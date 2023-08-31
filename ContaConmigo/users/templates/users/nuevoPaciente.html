@@ -1,0 +1,44 @@
+{% extends "publicaciones/base.html" %} {% load crispy_forms_tags %}  {% block content %}
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{ user.profile.image.url }}">
+                <span class="font-weight-bold">{{user.username}}</span>
+                <span class="text-black-50">{{user.first_name}} {{user.last_name}}</span>
+                <span>{{user.email}}</span>
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Información de Paciente</h4>
+                </div>
+                <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                <div class="row mt-3">
+                   {{ p_form|crispy }}
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-left">Información de Institución</h4>
+                </div>
+                <div class="row mt-3">
+                    {{ pi_form|crispy }}
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-outline-info profile-button" type="submit">Guardar</button></div>
+            </div>
+        </div>
+        </fieldset>
+        </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock content %}

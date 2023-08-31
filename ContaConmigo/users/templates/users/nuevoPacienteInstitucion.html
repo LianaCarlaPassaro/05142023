@@ -1,0 +1,28 @@
+{% extends "publicaciones/base.html" %} {% load crispy_forms_tags %} {% block content %}
+
+<div class="content-section">
+
+    <div class="media-body">
+        <img class="rounded-circle account-img img-fluid d-block" width="70" height="70"
+             src="{{ user.profile.image.url }}"/>
+        <strong> {{ user.first_name }} {{ user.last_name }}</strong>
+        <p class="text-secondary">{{ user.email }}</p>
+
+    </div>
+    <!-- FORM HERE -->
+    <div class="main-layout_mainSection__o749f">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Información de Institución</legend>
+                {{ nuevoPacienteInstitucion|crispy }}
+                <!-- Profile form -->
+            </fieldset>
+            <div class="form-group">
+
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

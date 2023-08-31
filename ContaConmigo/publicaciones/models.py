@@ -24,3 +24,5 @@ class Publicacion(models.Model):
     modifiedBy = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='pacienteModifiedBy')
     def __str__(self):
         return f'{self.idPaciente}  {self.institucion}'
+
+

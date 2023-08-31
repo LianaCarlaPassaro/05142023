@@ -1,0 +1,98 @@
+{% extends "publicaciones/base.html" %} {% load crispy_forms_tags %} {% block content %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>ContáConmigo</title>
+</head>
+<body>
+
+    <form method="get">
+        <h2>Filtros de búsqueda</h2>
+        {{ myFilter.form|crispy }}
+        <div class="mt-5 text-center"><button class="btn btn-outline-info profile-button" type="submit">Buscar</button></div>
+    </form>
+
+
+    <h1>Listado de Pacientes</h1>
+    <div class="main">
+        <table border="2" id="tableList">
+            <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Fecha límite</th>
+                <th>Institución</th>
+                <th>Tipos de Sangre Solicitados</th>
+                <th>Cant Donantes</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>Email</th>
+                <th>Sexo</th>
+                <th>Tipo de Sangre Paciente</th>
+                <th>Teléfono de Contacto</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for institucion in pacientesInstitucion %}
+
+
+                    {% for userList in usersList %}
+                        {% if institucion.paciente_id == userList.user.paciente.id%}
+                            <tr>
+                                <td><img class="circle account-img img-fluid d-block mx-auto" width="50" height="50"
+                                 src="{{ userList.user.profile.image.url }}"/></td>
+                                <td>{{institucion.fechaLimite}}</td>
+                                <td>{{institucion.institucion.nombreInstitucion}}</td>
+                                <td>{% for sangres in institucion.tiposSangre.all %} {{ sangres }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                <td>{{ institucion.cantidadDonantes }}</td>
+                                <td>{{userList.user.first_name}}</td>
+                                <td>{{userList.user.last_name}}</td>
+                                <td>{{userList.user.paciente.edad_actual}}</td>
+                                <td>{{ institucion.mail }}</td>
+                                <td>{{userList.user.paciente.sexo_descripcion}}</td>
+                                <td>{{userList.tipoSangre}}</td>
+                                <td>{{userList.user.paciente.telefono}}</td>
+
+                                <td>
+
+                                {% if userList.user.id != user.id %}
+                                <a href="donante/{{userList.user.id}}">Postularme</a>
+                                    {% for don in donantes1.all %}
+
+                                        {% for donInst in don.pacienteInstitucion.all %}
+
+                                                {% if donInst.id ==  institucion.id and userList.user.id != user.id %}
+                                                        Ya te has postulado!
+
+                                                {% endif %}
+
+                                        {% endfor %}
+
+                                    {% endfor %}
+
+                                {% else %} 😃
+
+                                {% endif %}
+
+                               </td>
+
+
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+
+
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+        </br>
+        <div id="total-registros">Total Registros: {{pacientesInstitucion|length}}</div>
+
+    </div>
+    </br>
+</body>
+{% endblock content %}

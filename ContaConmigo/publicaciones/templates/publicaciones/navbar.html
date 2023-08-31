@@ -1,0 +1,81 @@
+{% load static %}
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark scrolling-navbar">
+    <div class="container">
+
+      <!-- Brand -->
+      <div class="navbar-header navbar-collapse">
+        <a class="navbar-brand sticky-top waves-effect" href="/">
+          <img class="rounded-circle account-img img-fluid mx-auto d-block" src="{% static 'logo.jpg' %}" alt="logo" width="100" height="100"/>
+          <pstrong  class="blue-text">ContaConmigo</pstrong>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </a>
+      </div>
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav sticky-top mr-auto">
+          {% comment %} <li class="nav-item active">
+            <a class="nav-link waves-effect" href="/">ContaConmigo
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          {% endcomment %}
+        </ul>
+
+        <!-- Right -->
+        <ul class="navbar-nav sticky-top nav-flex-icons">
+          {% if request.user.is_authenticated %}
+              <li class="dropdown nav-link" >
+                <a class="dropdown-toggle" id="navbarDropdownMenuLink1" aria-expanded="false" aria-haspopup="true"
+                  data-toggle="dropdown">Perfil</a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="{% url 'profile' %}"> Mi Perfil </a></li>
+                <li><a class="nav-link" href="{% url 'listadoPaciente' %}"> Paciente </a></li>
+              </ul>
+            </li>
+
+
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="{% url 'listadoPaciente' %}">
+                <span class="clearfix d-none d-sm-inline-block"> Listado de Pacientes </span>
+              </a>
+            </li>
+
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'listadoDonante' %}">
+              <span class="clearfix d-none d-sm-inline-block"> Listado de Donantes </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'logout' %}">
+              <span class="clearfix d-none d-sm-inline-block"> Logout </span>
+            </a>
+          </li>
+
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'login' %}">
+              <span class="clearfix d-none d-sm-inline-block"> Iniciar Sesión </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'register' %}">
+              <span class="clearfix d-none d-sm-inline-block"> Registrarse </span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+
+    </div>
+  </nav>

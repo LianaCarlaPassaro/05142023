@@ -1,0 +1,35 @@
+{% extends "publicaciones/base.html" %} {% load crispy_forms_tags %} {% block content %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>ContáConmigo</title>
+</head>
+ <h1>Listado de Pacientes</h1>
+    <div class="main">
+        <table border="2" id="tableList">
+            <thead>
+            <tr>
+
+                <th>Fecha Donación Elegida</th>
+                <th>Comentario</th>
+                <th>Confirmación Asistencia</th>
+                <th>Paciente Institución</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if donante %}
+                {% for listado in donante %}
+                    <tr>
+                        <td>{{listado.fechaDonancionElegida}}</td>
+                        <td>{{listado.comentario}}</td>
+                        <td>{{listado.confirmacionAsistencia}}</td>
+                        <td>{{listado.pacienteInstitucion}}</td>
+                    </tr>
+                {% endfor %}
+            {% else %} Ud no ha aplicado para ninguna donación.
+            {%endif %}
+            </tbody>
+                    </table>
+        </br>
+        <div id="total-registros">Total Registros: {{donante|length}}</div>
+{% endblock content %}

@@ -13,7 +13,7 @@ class Ciudad(models.Model):
     idProvincia = models.ForeignKey(Provincia, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'{self.nombreCiudad} - {self.idProvincia}'
+        return f'{self.idProvincia} - {self.nombreCiudad}'
 
 class Instituciones(models.Model):
     nombreInstitucion = models.CharField(max_length=255)
@@ -22,4 +22,4 @@ class Instituciones(models.Model):
     idCiudad = models.ForeignKey(Ciudad, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'{self.nombreInstitucion} - {self.idCiudad}'
+        return f'{self.idCiudad} - {self.nombreInstitucion}'

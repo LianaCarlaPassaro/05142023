@@ -2,37 +2,126 @@
 <html lang="en">
 <style type="text/css">
 
-  h5, h3{
+.navbar-nav .dropdown-menu {
+    background-color: #3E3D3D;
+    font-color: #FFFFFF;
+
+}
+
+
+html {
+    max-width: 1250px;
+    margin: auto;
+    margin-top: 130px;
+}
+
+.form1-group {
+    font-size: 16px;
+    text-align: left;
+}
+.form-group {
+    font-size: 16px;
+    text-align: left;
+    width: 16vw;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: #EB187D;
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #EB187D
+}
+
+.profile-button:focus {
+    background: #EB187D;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #EB187D;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #EB187D;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+hr {
+  background-color:white;
+  margin:0 0 45px 0;
+  max-width:1250px;
+  border-width:0;
+}
+
+hr.s1 {
+  height:1px;
+  border-top:1px solid black;
+  border-bottom:1px solid black;
+}
+
+
+h5, h3{
     text-align: center;
     text-shadow: 2px 2px 2px #cdd4da;
+}
+    th{
+        background-color: #FFDBD9;
+        border: 1px solid #000;
+        border-collapse: collapse;
+        padding: 5px;
+        font-family: Gotham, sans-serif;
     }
-  .caja {
-    padding: 15px;
-    margin: auto;
-    width: 100%;
-    background-color: #FAA0B7;
-    border-radius: 5px;
+   #tableList, td{
+       border: 1px solid #000;
+       border-collapse: collapse;
+       padding: 5px;
+       font-family: Gotham, sans-serif;
+   }
+    .caja {
+        padding: 15px;
+        margin: auto;
+        width: 100%;
+        background-color: #FFDBD9;
+        border-radius: 5px;
     }
-  .texto{
-    text-align: justify;
+    .texto{
+        text-align: justify;
     }
-
-  table{
-    width: 95%
-    border: 1px solid #434b4d;
-    color: #434b4d;
-    font-family: Gotham, sans-serif;
-    border-radius:20px 0px 10px 10px;
-    text-align: center;
-    /*border-radius:15px;*/
+    table{
+        width: 95%
+        border: 1px solid #434b4d;
+        color: #434b4d;
+        font-family: Gotham, sans-serif;
+        border-radius:20px 0px 10px 10px;
+        text-align: center;
+        /*border-radius:15px;*/
   }
   /*renglones pares*/
     tr:nth-child(even){
-        background-color: #FFF0F0;
+        background-color: #fff;
     }
   /*renglones impares*/
     tr:nth-child(odd){
-        background-color: #fff;
+        background-color: #FFF0F0;
     }
 
   a:link, a:visited {
@@ -40,10 +129,15 @@
     background-color: transparent;
     text-decoration: none;
   }
+
+
+
+
+
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ContaConmigo</title>
     <!--Bootstrap CSS-->
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -54,24 +148,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
+{% include "publicaciones/navbar.html" %}
 <body>
-<div class="col-md-8">
-  {% if messages %} {% for message in messages %}
-  <div class="alert alert-{{ message.tag }}">{{ message }}</div>
-  {% endfor%} {% endif %}
+    <div class="container rounded bg-white mt-5 mb-5">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
+        {% endfor%}
+    {% endif %}
+    </div>
 
-</div>
-<!-- Navbar Right Side -->
-<div class="navbar-nav">
-  {% if user.is_authenticated %}
-  <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-  <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-  {% else %}
-  <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-  <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-  {% endif %}
-</div>
-{% block content %}
-{% endblock content %}
+    {% block content %}
+    {% endblock content %}
+    {% include "publicaciones/footer.html" %}
 </body>
 </html>

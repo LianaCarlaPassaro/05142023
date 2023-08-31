@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Publicacion
+from .models import Publicacion, User
 from django.http import HttpResponse
 
 # Create your views here.
@@ -12,3 +12,4 @@ def index(request):
 
 def acercade(request):
     return render(request, 'publicaciones/acercade.html', {'title': 'AcercaDe'})
+
