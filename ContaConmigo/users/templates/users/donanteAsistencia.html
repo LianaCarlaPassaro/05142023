@@ -5,20 +5,17 @@
     <title>ContáConmigo</title>
 </head>
 <body>
-    <h1>Aplicar como Donante del Paciente:{{paciente.user.first_name}} {{paciente.user.last_name}}</h1>
-
+    <h1>Confirmá tu asistencia a Clínica</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
             {{ d_form|crispy }}
         </fieldset>
-        <h6><div class="text-left">Ubicación: {{pacienteInstitucion.institucion}}</div></h6>
-        <h6><div class="text-left">Dirección: {{pacienteInstitucion.institucion.direccion}}</div></h6>
-        <h6><div class="text-left">Teléfono: {{pacienteInstitucion.institucion.telefono}}</div></h6>
         <div class="text-center">
+
+
             <div class="mt-5 text-center"><button class="btn btn-outline-info profile-button" type="submit">Guardar</button></div>
         </div>
-
     </form>
 </body>
 {% endblock content %}

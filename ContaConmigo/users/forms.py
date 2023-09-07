@@ -73,29 +73,37 @@ class DonanteReposicionForm(forms.ModelForm):
         # Check if a date is in the allowed range (+4 weeks from today).
         if data > date.today() + timedelta(weeks=1):
             raise ValidationError(_('Fecha Inválida - Selecciona una fecha menor a 1 semana'))
-        if self.confirmacionAsistencia ==False:
-            raise ValidationError(_('bla'))
+
         # Remember to always return the cleaned data.
         return data
+
+class DonanteAsistenciaForm(forms.ModelForm):
+    class Meta:
+        model = Donantes
+        widgets = {'fechaDonancionElegida': DateInput()}
+        fields = [ 'fechaDonancionElegida']
+        labels = {'fechaDonancionElegida': 'Fecha en la que te presentaste a donar:'}
 
 
 
 class nuevoPacienteInstitucionForm(forms.ModelForm):
     class Meta:
         model = PacienteInstitucion
+        widgets = {'fechaLimite': DateInput()}
         fields = ['institucion', 'mail', 'cantidadDonantes', 'fechaLimite', 'comentario', 'tiposSangre']
         labels = {
             'cantidadDonantes': 'Cantidad de Donantes Necesarios',
             'mail': 'Email Paciente',
-            'fechaLimite': 'Fecha límite para Recepción de Donantes',
+            'fechaLimite': 'Fecha límite para Recepción de Donantes (Mes-Día-Año)',
             'comentario': 'Comentarios',
-            'tiposSangre': 'Tipos y Grupos Sanguíneos Solicitados',
+            'tiposSangre': 'Tipos y Grupos Sanguíneos Solicitados (Puede seleccionar más de uno)',
             'institucion': 'Institución Médica'
         }
 
 class PacienteRegisterForm(forms.ModelForm):
     class Meta:
         model = Paciente
+        widgets = {'fechaNacimiento': DateInput()}
         fields = ['id', 'tipoDNI', 'dni',  'telefono', 'sexo','tipoSangre','fechaNacimiento', 'ciudad']
 
         labels = {
@@ -104,7 +112,7 @@ class PacienteRegisterForm(forms.ModelForm):
             'telefono':'Teléfono',
             'sexo': 'Sexo',
             'tipoSangre': 'Tipo y Grupo Sanguíneo',
-            'fechaNacimiento': 'Fecha de Nacimiento',
+            'fechaNacimiento': 'Fecha de Nacimiento (Mes-Día-Año)',
             'ciudad': 'Ciudad Procendencia de Paciente',
         }
 

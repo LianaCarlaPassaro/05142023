@@ -1,5 +1,8 @@
 {% extends "publicaciones/base.html" %} {% load crispy_forms_tags %} {% block content %}
 {% load static %}
+
+{% load poll_extras %}
+
 <head>
     <meta charset="UTF-8">
     <title>ContáConmigo</title>
@@ -12,8 +15,10 @@
         <div class="mt-5 text-center"><button class="btn btn-outline-info profile-button" type="submit">Buscar</button></div>
     </form>
 
-
-    <h1>Listado de Pacientes</h1>
+    </br>
+    </br>
+    <h1>Listado de Pacientes que necesitan de tu colaboración</h1>
+    </br>
     <div class="main">
         <table border="2" id="tableList">
             <thead>
@@ -21,8 +26,10 @@
                 <th>Imagen</th>
                 <th>Fecha límite</th>
                 <th>Institución</th>
+                <th>Ciudad</th>
                 <th>Tipos de Sangre Solicitados</th>
                 <th>Cant Donantes</th>
+                <th>Cant Asistencias Confirmadas</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Edad</th>
@@ -30,68 +37,56 @@
                 <th>Sexo</th>
                 <th>Tipo de Sangre Paciente</th>
                 <th>Teléfono de Contacto</th>
-                <th>Acciones</th>
+                <th>Acción</th>
             </tr>
             </thead>
             <tbody>
 
             {% for institucion in pacientesInstitucion %}
-
-
-                    {% for userList in usersList %}
-                        {% if institucion.paciente_id == userList.user.paciente.id%}
+                    {% for paciente in pacientes %}
+                        {% if institucion.paciente_id == paciente.user.paciente.id%}
                             <tr>
                                 <td><img class="circle account-img img-fluid d-block mx-auto" width="50" height="50"
-                                 src="{{ userList.user.profile.image.url }}"/></td>
+                                 src="{{ paciente.user.profile.image.url }}"/></td>
                                 <td>{{institucion.fechaLimite}}</td>
                                 <td>{{institucion.institucion.nombreInstitucion}}</td>
+                                <td>{{institucion.institucion.idCiudad}}</td>
                                 <td>{% for sangres in institucion.tiposSangre.all %} {{ sangres }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                                 <td>{{ institucion.cantidadDonantes }}</td>
-                                <td>{{userList.user.first_name}}</td>
-                                <td>{{userList.user.last_name}}</td>
-                                <td>{{userList.user.paciente.edad_actual}}</td>
+
+                                <td>{{institucion.id|donantesAsistidos}}</td>
+
+                                <td>{{paciente.user.first_name}}</td>
+                                <td>{{paciente.user.last_name}}</td>
+                                <td>{{paciente.user.paciente.edad_actual}}</td>
                                 <td>{{ institucion.mail }}</td>
-                                <td>{{userList.user.paciente.sexo_descripcion}}</td>
-                                <td>{{userList.tipoSangre}}</td>
-                                <td>{{userList.user.paciente.telefono}}</td>
+                                <td>{{paciente.user.paciente.sexo_descripcion}}</td>
+                                <td>{{paciente.tipoSangre}}</td>
+                                <td>{{paciente.user.paciente.telefono}}</td>
 
                                 <td>
+                                {% if paciente.user.id != user.id and institucion.id|donantesAsistidos < institucion.cantidadDonantes %}
 
-                                {% if userList.user.id != user.id %}
-                                <a href="donante/{{userList.user.id}}">Postularme</a>
                                     {% for don in donantes1.all %}
-
                                         {% for donInst in don.pacienteInstitucion.all %}
-
-                                                {% if donInst.id ==  institucion.id and userList.user.id != user.id %}
+                                                {% if donInst.id ==  institucion.id and paciente.user.id != user.id %}
                                                         Ya te has postulado!
-
                                                 {% endif %}
-
                                         {% endfor %}
-
                                     {% endfor %}
 
-                                {% else %} 😃
-
+                                    <a href="donante/{{paciente.user.id}}">Quiero Donar!</a>
+                                {% elif paciente.user.id == user.id %} 😃
                                 {% endif %}
-
                                </td>
-
-
                             </tr>
                         {% endif %}
                     {% endfor %}
-
-
             {% endfor %}
-
-
             </tbody>
         </table>
         </br>
         <div id="total-registros">Total Registros: {{pacientesInstitucion|length}}</div>
-
     </div>
     </br>
 </body>

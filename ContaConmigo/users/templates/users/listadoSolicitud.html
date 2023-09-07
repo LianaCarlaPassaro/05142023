@@ -1,0 +1,47 @@
+{% extends "publicaciones/base.html" %} {% load crispy_forms_tags %} {% block content %}
+{% load static %}
+{% load poll_extras %}
+<head>
+    <meta charset="UTF-8">
+    <title>ContáConmigo</title>
+</head>
+<h1>Has solicitado dadores de sangre en las siguientes oportunidades: </h1>
+<div class="main">
+    <table border="2" id="tableList">
+        <thead>
+            <tr>
+                <th>Nombre de Institución</th>
+                <th>Fecha Límite</th>
+                <th>Cantidad de Donantes</th>
+                <th>Cant Asistencias Confirmadas</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pac in pacientesInstitucion %}
+            <tr>
+                <td>{{forloop.counter}} {{pac.institucion.nombreInstitucion}}</td>
+                <td>{{pac.fechaLimite}}</td>
+                <td>{{pac.cantidadDonantes}}</td>
+                <td>{{pac.id|donantesAsistidos}}</td>
+                <td>{{pac.mail}}</td>
+                <td>
+                    <a href="ver_listadoSolicitud/{{pac.id}}">Detalle</a>
+                    {% if pac.fechaLimite > startdate %}
+                        {% if not pac.id|donantesAsistidos %}
+                           | <a href="editar_listadoSolicitud/{{pac.id}}">Editar</a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+
+            </tr>
+        {% empty %}
+            <tr><td colspan="8">No has solicitado ningún pedido de sangre</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </br>
+    <div id="total-registros">Total Registros: {{pacientesInstitucion|length}}</div>
+</div>
+{% endblock content %}

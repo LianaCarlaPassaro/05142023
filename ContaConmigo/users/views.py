@@ -4,42 +4,111 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # Import User UpdateForm, ProfileUpdatForm
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, PacienteRegisterForm, \
-    nuevoPacienteInstitucionForm, DonanteReposicionForm
+    nuevoPacienteInstitucionForm, DonanteReposicionForm, DonanteAsistenciaForm
 from .models import Paciente, PacienteInstitucion, Donantes
 from .filters import PacienteFilter
 
+def verListadoSolicitud(request, id):
+    pacInstitucion = PacienteInstitucion.objects.get(pk=id)
+    donantes = Donantes.objects.filter(pacienteInstitucion=pacInstitucion.id)
+    print('*********************')
+    print(donantes)
+    context = {'pacInstitucion': pacInstitucion,
+               'donantes': donantes}
+    return render(request, 'users/verListadoSolicitud.html', context)
+
+
+def editarListadoSolicitud(request, id):
+    pacInstitucion = get_object_or_404(PacienteInstitucion, pk=id)
+    if request.method == 'POST':
+        pi_form = nuevoPacienteInstitucionForm(request.POST, instance=pacInstitucion)
+        if pi_form.is_valid():
+            pi_form.save()
+            messages.success(request, f'El pedido de donantes ha sido actualizado correctamente!')
+            return redirect('listadoSolicitud') # Redirect back to paciente page
+    else:
+        pi_form = nuevoPacienteInstitucionForm(instance=pacInstitucion)
+    context = {
+        'pi_form': pi_form
+    }
+    return render(request, 'users/editarListadoSolicitud.html', context)
+
+def listadoSolicitud(request):
+    startdate = date.today()
+    paciente = Paciente.objects.filter(is_paciente=True, user_id=request.user.id)
+    pacientesInstitucion = PacienteInstitucion.objects.filter(paciente__id__in=paciente.all()).order_by("fechaLimite")
+    context = {'paciente': paciente,
+               'pacientesInstitucion': pacientesInstitucion,
+               'startdate':startdate}
+    return render(request, 'users/listadoSolicitud.html', context)
+
+def donanteAsistencia(request, id):
+    donante = get_object_or_404(Donantes, pk=id)
+
+    print('donante pk')
+    print(donante)
+    if request.method == 'POST':
+        d_form = DonanteAsistenciaForm(request.POST, instance=donante)
+        if d_form.is_valid():
+            asistencia = d_form.save(commit=False)
+            asistencia.confirmacionAsistencia = 'True'
+            d_form.save()
+            messages.success(request, f'Gracias por informarnos que te has presentado a donar. Compartiremos esta información con el paciente!')
+            return redirect('listadoDonante')  # Redirect back to paciente page
+    else:
+        d_form = DonanteAsistenciaForm(instance=donante)
+    context = {
+        'd_form': d_form
+    }
+    return render(request, 'users/donanteAsistencia.html', context)
+
+
+def donanteAsistenciaEliminar(request, id):
+    donante = get_object_or_404(Donantes, pk=id)
+    if donante:
+        donante.delete()
+    return redirect('listadoDonante')
+
+
 def listadoDonante(request):
+
     donante = Donantes.objects.filter(user=request.user.id, is_donante=True)
+
+    print('donante')
+    print(donante)
     context = {'donante': donante}
     return render(request, 'users/listadoDonante.html', context)
+
 
 def listadoPaciente(request):
     startdate = date.today()
     pacientes = Paciente.objects.filter(is_paciente=True)
+
     pacientesInstitucion = PacienteInstitucion.objects.filter(paciente__id__in=pacientes.all(), fechaLimite__gte=startdate, completo=False).order_by("fechaLimite")
+
     myFilter = PacienteFilter(request.GET, queryset=pacientesInstitucion)
     pacientesInstitucion = myFilter.qs
 
-
-    donante = Donantes.objects.filter(user=request.user.id)
     donantes1 = Donantes.objects.filter(pacienteInstitucion__id__in=pacientesInstitucion.all(), user=request.user.id)
-
+    donantes2 = Donantes.objects.filter(pacienteInstitucion__id__in=pacientesInstitucion.all(), confirmacionAsistencia=True)
     template_list = list(zip(pacientesInstitucion.all(), donantes1.all()))
 
     cantDon = str(len(donantes1))
 
+
     context = {
-        'usersList': pacientes,
+        'pacientes': pacientes,
         'myFilter': myFilter,
         'pacientesInstitucion': pacientesInstitucion,
-        'donante': donante,
         'donantes1': donantes1,
+        'donantes2':donantes2,
         'template_list':template_list,
         'cantDon':cantDon
     }
     return render(request, 'users/paciente.html', context)
 
-def donante(request,id):
+
+def donante(request, id):
     paciente = get_object_or_404(Paciente, user_id=id)
 
     pacienteInstitucion = get_object_or_404(PacienteInstitucion, paciente_id=paciente.id, completo=False)
@@ -136,7 +205,7 @@ def paciente(request):
             fs.completo = False
             pi_form.save()
 
-            messages.success(request, f'El pedido del paciente ha sido registrado correctamente!')
+            messages.success(request, f'El paciente se ha creado con éxito! Puedes editar la información ingresando a Información de Institución.')
             return redirect('paciente') # Redirect back to paciente page
     else:
         p_form = PacienteRegisterForm(instance=request.user.paciente)
