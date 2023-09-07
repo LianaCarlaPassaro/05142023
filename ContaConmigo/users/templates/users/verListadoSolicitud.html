@@ -1,0 +1,59 @@
+{% extends "publicaciones/base.html" %} {% load crispy_forms_tags %} {% block content %}
+{% load static %}
+{% load poll_extras %}
+<head>
+    <meta charset="UTF-8">
+    <title>ContáConmigo</title>
+</head>
+<body>
+    <h1>Pedido de Donadores:</h1>
+    <table border="2" id="tableList">
+        <thead>
+        <tr>
+            <th>Institución Médica</th>
+            <th>Dirección Institución</th>
+            <th>Fecha Límite</th>
+            <th>Tipos de Sangre Solicitados</th>
+            <th>Cant Donantes</th>
+            <th>Cant Asistencias Confirmadas</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{pacInstitucion.institucion}}</td>
+                <td>{{pacInstitucion.institucion.direccion}}</td>
+                <td>{{pacInstitucion.fechaLimite}}</td>
+                <td>{% for sangres in pacInstitucion.tiposSangre.all %} {{ sangres }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                <td>{{ pacInstitucion.cantidadDonantes }}</td>
+                <td>{{pacInstitucion.id|donantesAsistidos}}</td>
+            </tr>
+        </tbody>
+    </table>
+    </br>
+    <h4>Detalle Donantes:</h4>
+    <table border="2" id="tableList1">
+        <thead>
+        <tr>
+            <th>Donante</th>
+            <th>Fecha estimada de donación</th>
+            <th>¿Ha confirmado asistencia?</th>
+            <th>Comentario ingresado</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for don in donantes %}
+                    <td>{{don.id}}</td>
+                    <td>{{don.fechaDonancionElegida}}</td>
+                    <td>{% if don.confirmacionAsistencia %} ✔ {% else %} NO {% endif %}</td>
+                    <td>{{don.comentario}}</td>
+                {% empty %}<tr><td colspan="6">No hay donantes postulados.</td></tr>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</body>
+{% endblock content %}
+
+

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>ContáConmigo</title>
 </head>
- <h1>Listado de Pacientes</h1>
+ <h1>Postulaciones a las que has aplicado:</h1>
     <div class="main">
         <table border="2" id="tableList">
             <thead>
@@ -12,24 +12,41 @@
 
                 <th>Fecha Donación Elegida</th>
                 <th>Comentario</th>
-                <th>Confirmación Asistencia</th>
-                <th>Paciente Institución</th>
+                <th>Nombre del Paciente</th>
+                <th>Institución</th>
+                <th>Dirección Institución</th>
+                <th>¿Asistió?</th>
             </tr>
             </thead>
             <tbody>
-            {% if donante %}
                 {% for listado in donante %}
                     <tr>
                         <td>{{listado.fechaDonancionElegida}}</td>
                         <td>{{listado.comentario}}</td>
-                        <td>{{listado.confirmacionAsistencia}}</td>
-                        <td>{{listado.pacienteInstitucion}}</td>
+                        {% for institucion in listado.pacienteInstitucion.all %}
+                            <td>{{ institucion.paciente }}</td>
+                            <td>{{ institucion.institucion.nombreInstitucion }}</td>
+                            <td>{{ institucion.institucion.direccion }} - {{ institucion.institucion.idCiudad.nombreCiudad }} - {{ institucion.institucion.idCiudad.idProvincia.nombreProvincia }}</td>
+                                {% if not forloop.last %},
+                                {% endif %}
+                        {% endfor %}
+
+                        <td>
+                            {% if listado.confirmacionAsistencia %}
+                                ✔
+                            {% else%}
+                                <a href="confirmacion/{{listado.id}}">Confirmar</a>
+                                <a href="eliminacion/{{listado.id}}">Eliminar</a>
+                            {% endif%}
+                        </td>
+
                     </tr>
+                {% empty %}<tr><td colspan="6">Ud no ha aplicado para ninguna donación.</td></tr>
                 {% endfor %}
-            {% else %} Ud no ha aplicado para ninguna donación.
-            {%endif %}
+
             </tbody>
-                    </table>
+        </table>
         </br>
         <div id="total-registros">Total Registros: {{donante|length}}</div>
+    </div>
 {% endblock content %}

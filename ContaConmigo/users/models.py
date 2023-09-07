@@ -109,9 +109,10 @@ class Donantes(models.Model):
     comentario = models.TextField(max_length=1024, null=True, blank=True)
     confirmacionAsistencia = models.BooleanField(default=False)
     pacienteInstitucion = models.ManyToManyField(PacienteInstitucion, related_name="donantePacienteInstitucion")
+    agradecimiento = models.TextField(max_length=1024, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True,verbose_name="created at")
     updated_at = models.DateTimeField(auto_now=True,null=True,verbose_name="updated at")
 
     def __str__(self):
-        return f'{self.fechaDonancionElegida} {self.user}  {self.tipoSangre} {self.pacienteInstitucion}'
+        return f'{self.fechaDonancionElegida} {self.user}  {self.tipoSangre} {self.pacienteInstitucion} {self.confirmacionAsistencia}'
 
